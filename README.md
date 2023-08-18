@@ -1,3 +1,7 @@
+# Live Demo
+
+https://blackjack-backend-eight.vercel.app/
+
 # Features
 
 - Deck of Cards API: A route in Next.js generates a shuffled deck of 52 playing cards which is used to deal cards for the game.
