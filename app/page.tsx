@@ -62,7 +62,7 @@ const getUniCodeForSuit = (suit: Suit) => {
     default:
       return "";
   }
-};
+}
 
 function getCardValue(card: Card): number {
   if (["J", "Q", "K"].includes(card.rank)) {
@@ -98,12 +98,8 @@ function Blackjack() {
   const [gameStatus, setGameStatus] = useState<string | "">("");
 
   async function fetchDeck() {
-    const timestamp = Date.now();
-    const response = await fetch(`/api/deck?_=${timestamp}`, {
-      headers: {
-        Pragma: "no-cache",
-        "Cache-Control": "no-cache",
-      },
+    const response = await fetch("/api/deck", {
+      cache: "no-store",
     });
     const data = await response.json();
     return data.data;
