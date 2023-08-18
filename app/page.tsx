@@ -62,7 +62,7 @@ const getUniCodeForSuit = (suit: Suit) => {
     default:
       return "";
   }
-}
+};
 
 function getCardValue(card: Card): number {
   if (["J", "Q", "K"].includes(card.rank)) {
@@ -99,7 +99,10 @@ function Blackjack() {
 
   async function fetchDeck() {
     const response = await fetch("/api/deck", {
-      cache: "no-cache",
+      headers: {
+        Pragma: "no-cache",
+        "Cache-Control": "no-cache",
+      },
     });
     const data = await response.json();
     return data.data;
