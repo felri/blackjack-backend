@@ -98,7 +98,8 @@ function Blackjack() {
   const [gameStatus, setGameStatus] = useState<string | "">("");
 
   async function fetchDeck() {
-    const response = await fetch("/api/deck", {
+    const timestamp = Date.now();
+    const response = await fetch(`/api/deck?_=${timestamp}`, {
       headers: {
         Pragma: "no-cache",
         "Cache-Control": "no-cache",
