@@ -104,16 +104,16 @@ function Blackjack() {
   }
 
   function dealFromFetchedDeck(fetchedDeck: Card[]) {
-    if (fetchedDeck.length >= 4) {
-      const newDeck = [...fetchedDeck];
-      setPlayerHand([newDeck.pop()!, newDeck.pop()!]);
-      setDealerHand([newDeck.pop()!, newDeck.pop()!]);
-      setDeck(newDeck);
-      setGameStatus(getStatusText("ongoing"));
-    }
+    const newDeck = [...fetchedDeck];
+    setPlayerHand([newDeck.pop()!, newDeck.pop()!]);
+    setDealerHand([newDeck.pop()!, newDeck.pop()!]);
+    setDeck(newDeck);
+    setGameStatus(getStatusText("ongoing"));
   }
 
   async function dealInitialCards() {
+    setPlayerHand([]);
+    setDealerHand([]);
     const newDeck = await fetchDeck();
     dealFromFetchedDeck(newDeck);
   }
@@ -176,7 +176,7 @@ function Blackjack() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center text-gray-800">
-      <div className="min-h-screen bg-white p-8 rounded shadow-lg max-w-lg w-full ">
+      <div className="min-h-screen p-8 rounded shadow-lg max-w-lg w-full bg-gradient-to-r from-green-700 to-green-800 text-white">
         <button
           onClick={dealInitialCards}
           className="bg-blue-500  px-6 py-2 rounded font-bold mb-4 text-white w-full"
@@ -184,45 +184,12 @@ function Blackjack() {
           Deal Cards
         </button>
 
-        <div className="mb-4">
-          <h2 className="text-2xl font-semibold mb-2">
-            Player Hand ({getHandValue(playerHand)})
-          </h2>
-          <div className="flex space-x-2">
-            {playerHand.map((card) => (
-              <div
-                key={`${card.suit}-${card.rank}`}
-                className="p-2 bg-gray-300 rounded border font-bold"
-              >
-                {`${card.rank} ${getUniCodeForSuit(card.suit)}`}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {gameStatus === "Ongoing" && (
-          <div className="mb-4 text-white font-bold">
-            <button
-              onClick={playerHit}
-              className="bg-green-500  px-6 py-2 rounded mb-2 w-full"
-            >
-              Hit
-            </button>
-            <button
-              onClick={playerStay}
-              className="bg-red-500  px-6 py-2 rounded w-full"
-            >
-              Stay
-            </button>
-          </div>
-        )}
-
-        <div className="mb-4">
+        <div className="mb-4 flex flex-col items-center justify-start min-h-[125px]">
           <h2 className="text-2xl font-semibold mb-2">
             Dealer Hand{" "}
             {gameStatus !== "Ongoing" ? `(${getHandValue(dealerHand)})` : ""}
           </h2>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 text-gray-800">
             {dealerHand.map((card, index) => (
               <div
                 key={`${card.suit}-${card.rank}`}
@@ -236,8 +203,43 @@ function Blackjack() {
           </div>
         </div>
 
+        {gameStatus === "Ongoing" && (
+          <div className="text-white font-bold flex flex-row space-x-2 mb-10">
+            <button
+              onClick={playerHit}
+              className="bg-green-500 px-6 py-2 rounded w-full h-full"
+            >
+              Hit
+            </button>
+            <button
+              onClick={playerStay}
+              className="bg-red-500 px-6 py-2 rounded w-full h-full"
+            >
+              Stay
+            </button>
+          </div>
+        )}
+
+        <div className="mb-4 flex flex-col items-center justify-start min-h-[125px]">
+          <h2 className="text-2xl font-semibold mb-2">
+            Player Hand ({getHandValue(playerHand)})
+          </h2>
+          <div className="flex space-x-2 text-gray-800">
+            {playerHand.map((card) => (
+              <div
+                key={`${card.suit}-${card.rank}`}
+                className="p-2 bg-gray-300 rounded border font-bold"
+              >
+                {`${card.rank} ${getUniCodeForSuit(card.suit)}`}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {gameStatus !== "Ongoing" && (
-          <div className="text-xl font-semibold">Result: {gameStatus}</div>
+          <div className="text-xl font-semibold w-full text-center">
+            {gameStatus}
+          </div>
         )}
       </div>
     </div>
