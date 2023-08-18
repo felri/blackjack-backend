@@ -49,6 +49,21 @@ const getStatusText = (status: GameStatus) => {
   }
 };
 
+const getUniCodeForSuit = (suit: Suit) => {
+  switch (suit) {
+    case "Hearts":
+      return "\u2665";
+    case "Diamonds":
+      return "\u2666";
+    case "Clubs":
+      return "\u2663";
+    case "Spades":
+      return "\u2660";
+    default:
+      return "";
+  }
+}
+
 function getCardValue(card: Card): number {
   if (["J", "Q", "K"].includes(card.rank)) {
     return 10;
@@ -85,27 +100,22 @@ function Blackjack() {
   async function fetchDeck() {
     const response = await fetch("/api/deck");
     const data = await response.json();
-    setDeck(data.data);
+    return data.data;
   }
 
-  useEffect(() => {
-    fetchDeck();
-  }, []);
-
-  useEffect(() => {
-    if (gameStatus !== "Ongoing") {
-      fetchDeck();
-    }
-  }, [gameStatus]);
-
-  function dealInitialCards() {
-    if (deck.length >= 4) {
-      const newDeck = [...deck];
+  function dealFromFetchedDeck(fetchedDeck: Card[]) {
+    if (fetchedDeck.length >= 4) {
+      const newDeck = [...fetchedDeck];
       setPlayerHand([newDeck.pop()!, newDeck.pop()!]);
       setDealerHand([newDeck.pop()!, newDeck.pop()!]);
       setDeck(newDeck);
       setGameStatus(getStatusText("ongoing"));
     }
+  }
+
+  async function dealInitialCards() {
+    const newDeck = await fetchDeck();
+    dealFromFetchedDeck(newDeck);
   }
 
   function playerHit() {
@@ -124,13 +134,15 @@ function Blackjack() {
   }
 
   function playerStay() {
-    const newDealerHand = [...dealerHand];
+    let newDealerHand = [...dealerHand];
     while (getHandValue(newDealerHand) < 17 && deck.length) {
       const newDeck = [...deck];
       const newCard = newDeck.pop();
       newDealerHand.push(newCard!);
       setDeck(newDeck);
     }
+
+    newDealerHand = adjustAceValue(newDealerHand);
 
     const playerValue = getHandValue(playerHand);
     const dealerValue = getHandValue(newDealerHand);
@@ -146,6 +158,20 @@ function Blackjack() {
     }
 
     setDealerHand(newDealerHand);
+  }
+
+  function adjustAceValue(hand: Card[]): Card[] {
+    let value = getHandValue(hand);
+    const hasAce = hand.some((card) => card.rank === "A");
+    if (hasAce && value > 21) {
+      hand = hand.map((card) => {
+        if (card.rank === "A") {
+          card.rank = "1" as Rank;
+        }
+        return card;
+      });
+    }
+    return hand;
   }
 
   return (
@@ -166,9 +192,9 @@ function Blackjack() {
             {playerHand.map((card) => (
               <div
                 key={`${card.suit}-${card.rank}`}
-                className="p-2 bg-gray-300 rounded border"
+                className="p-2 bg-gray-300 rounded border font-bold"
               >
-                {`${card.rank} of ${card.suit}`}
+                {`${card.rank} ${getUniCodeForSuit(card.suit)}`}
               </div>
             ))}
           </div>
@@ -199,11 +225,11 @@ function Blackjack() {
             {dealerHand.map((card, index) => (
               <div
                 key={`${card.suit}-${card.rank}`}
-                className="p-2 bg-gray-300 rounded border"
+                className="p-2 bg-gray-300 rounded border font-bold"
               >
                 {index === 0 && gameStatus === "Ongoing"
                   ? "Hidden"
-                  : `${card.rank} of ${card.suit}`}
+                  : `${card.rank} ${getUniCodeForSuit(card.suit)}`}
               </div>
             ))}
           </div>
