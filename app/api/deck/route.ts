@@ -29,13 +29,15 @@ export const fetchCache = "force-no-store";
 export async function GET(request: Request) {
   const deck: Card[] = [];
 
-  for (let suit of suits) {
-    for (let rank of ranks) {
-      deck.push({ suit, rank });
+  // Create 6 decks
+  for (let d = 0; d < 6; d++) {
+    for (let suit of suits) {
+      for (let rank of ranks) {
+        deck.push({ suit, rank });
+      }
     }
   }
 
-  // Shuffle the deck
   for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
