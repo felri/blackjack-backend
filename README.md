@@ -1,34 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Features
 
-## Getting Started
+- Deck of Cards API: A route in Next.js generates a shuffled deck of 52 playing cards which is used to deal cards for the game.
 
-First, run the development server:
+- Gameplay: The game allows the user (as the player) to "Hit" to get a new card or "Stay" to end their turn. The game logic then decides the outcome based on the rules of Blackjack.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- Responsive UI: Leveraging Tailwind CSS.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# How to Run
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Clone the repository.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Navigate to the project directory.
 
-## Learn More
+- Run npm install or yarn to install dependencies.
 
-To learn more about Next.js, take a look at the following resources:
+- Use npm run dev or yarn dev to start the local development server.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Visit http://localhost:3000 in your browser to start playing!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Gameplay Instructions
 
-## Deploy on Vercel
+- Click on "Deal Cards" to initiate the game.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Your cards will be displayed, and you can choose to "Hit" for a new card or "Stay" to end your turn.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- The dealer will then play their turn based on the game's logic.
+
+- At the end of each round, the winner or result (e.g., a tie) is displayed.
