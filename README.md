@@ -27,3 +27,7 @@
 - The dealer will then play their turn based on the game's logic.
 
 - At the end of each round, the winner or result (e.g., a tie) is displayed.
+
+# How to Run Tests
+
+- yarn test or npm run test
