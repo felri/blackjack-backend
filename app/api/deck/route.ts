@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 
 type Card = {
   suit: string;
@@ -22,6 +22,8 @@ const ranks: string[] = [
   "A",
 ];
 
+export const fetchCache = "force-no-store";
+
 export async function GET(request: Request) {
   const deck: Card[] = [];
 
@@ -37,5 +39,5 @@ export async function GET(request: Request) {
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
 
-  return NextResponse.json({ data: deck })
-};
+  return NextResponse.json({ data: deck });
+}
