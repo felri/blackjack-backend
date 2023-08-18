@@ -219,7 +219,8 @@ function Blackjack() {
 
         <div className="mb-4">
           <h2 className="text-2xl font-semibold mb-2">
-            Dealer Hand ({getHandValue(dealerHand)})
+            Dealer Hand{" "}
+            {gameStatus !== "Ongoing" ? `(${getHandValue(dealerHand)})` : ""}
           </h2>
           <div className="flex space-x-2">
             {dealerHand.map((card, index) => (
