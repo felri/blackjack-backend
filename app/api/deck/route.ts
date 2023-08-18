@@ -28,6 +28,7 @@ export const fetchCache = "force-no-store";
 
 export async function GET(request: Request) {
   const deck: Card[] = [];
+  const DECK_SIZE = suits.length * ranks.length; // Number of cards in one deck (should be 52)
 
   // Create 6 decks
   for (let d = 0; d < 6; d++) {
@@ -43,5 +44,7 @@ export async function GET(request: Request) {
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
 
-  return NextResponse.json({ data: deck });
+  const oneDeck = deck.slice(0, DECK_SIZE);
+
+  return NextResponse.json({ data: oneDeck });
 }
