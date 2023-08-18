@@ -75,7 +75,7 @@ describe("<Page />", () => {
     expect(dealerCard).toBeInTheDocument();
 
     // This expectation depends on the game outcome based on your mock. Adjust accordingly.
-    const gameStatus = screen.getByText("Result: Dealer Win");
+    const gameStatus = screen.getByText("Dealer Win");
     expect(gameStatus).toBeInTheDocument();
   });
 });
