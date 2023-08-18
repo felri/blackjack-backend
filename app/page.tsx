@@ -98,7 +98,9 @@ function Blackjack() {
   const [gameStatus, setGameStatus] = useState<string | "">("");
 
   async function fetchDeck() {
-    const response = await fetch("/api/deck");
+    const response = await fetch("/api/deck", {
+      cache: "no-cache",
+    });
     const data = await response.json();
     return data.data;
   }
